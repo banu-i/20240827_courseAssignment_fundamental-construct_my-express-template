@@ -1,27 +1,27 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("./db");
+const User = require("./User");
 
-const User = sequelize.define(
-  "User",
+const Entry = sequelize.define(
+  "Entry",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: true,
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
+      },
     },
-    email: {
+    title: {
       type: DataTypes.STRING(100),
-      allowNull: false,
-      unique: true,
     },
-    password_hash: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
+    content: {
+      type: DataTypes.TEXT,
     },
     created_at: {
       type: DataTypes.DATE,
@@ -29,9 +29,12 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "Users",
+    tableName: "Entries",
     timestamps: false, // Verhindert automatische timestamps
   }
 );
 
-module.exports = User;
+Entry.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Entry, { foreignKey: "user_id" });
+
+module.exports = Entry;

@@ -1,27 +1,28 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("./db");
+const User = require("./User");
 
-const User = sequelize.define(
-  "User",
+const Friend = sequelize.define(
+  "Friend",
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    username: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      unique: true,
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
+      },
     },
-    email: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-      unique: true,
-    },
-    password_hash: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
+    friend_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: "id",
+      },
     },
     created_at: {
       type: DataTypes.DATE,
@@ -29,9 +30,9 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "Users",
+    tableName: "Friends",
     timestamps: false, // Verhindert automatische timestamps
   }
 );
 
-module.exports = User;
+module.exports = Friend;
