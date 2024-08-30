@@ -56,7 +56,7 @@ app.get("/", function (req, res) {
 //   res.json(`User with ID ${userId} deleted`);
 // });
 
-// aktuell user und users über eine Route
+// aktuell user und users über eine Route - bei den anderen Routen dasselbe
 app.use("/user", userRoutes);
 app.use("users", userRoutes);
 
