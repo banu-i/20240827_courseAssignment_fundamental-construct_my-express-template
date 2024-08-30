@@ -1,50 +1,42 @@
 const express = require("express");
-const app = express();
-
-app.use(express.json());
+const router = express.Router();
 
 // Get Routen
-app.get("/", function (req, res) {
-  res.json("Hello World");
-});
 
-app.get("/user", function (req, res) {
-  res.json("Hello User");
-});
-
-app.get("/users", function (req, res) {
-  res.json("All Users - hello");
-});
-
-app.get("/entries", function (req, res) {
-  res.json("All Entries");
-});
-
-app.get("/images", function (req, res) {
-  res.json("Overview of all Images");
-});
-
-app.get("/friends", function (req, res) {
+// Route für alle Freunde
+router.get("/", function (req, res) {
   res.json("Overview of all friends");
 });
 
+// Route für einen bestimmten Freund
+router.get("/:id", function (req, res) {
+  const friendId = req.params.id;
+  res.json({ message: `Details for friend with ID ${friendId}` });
+});
+
 // Post Route
-app.post("/user", function (req, res) {
-  const newUser = req.body;
-  res.json({ message: "User created", user: newUser });
+
+//  Route zum Erstellen eines neuen Freundes
+router.post("/", function (req, res) {
+  const newFriend = req.body;
+  res.json({ message: "Friend created", user: newFriend });
 });
 
 // Put Route
-app.put("/user:id", function (req, res) {
-  const userId = req.params.id;
-  const updatedUser = req.body;
-  res.json({ message: `User with ID ${userId} updated`, updatedUser });
+
+// Route zum Aktualisieren eines Freundes - basierend auf der ID
+router.put("/:id", function (req, res) {
+  const friendId = req.params.id;
+  const updatedFriend = req.body;
+  res.json({ message: `Friend with ID ${friendId} updated`, updatedFriend });
 });
 
 // Delete Route
-app.delete("/user:id", function (req, res) {
-  const userId = req.params.id;
-  res.json(`User with ID ${userId} deleted`);
+
+// Route zum Löschen eines Freundes - basierend auf der ID
+router.delete("/:id", function (req, res) {
+  const friendId = req.params.id;
+  res.json(`Friend with ID ${friendId} deleted`);
 });
 
-app.listen(3000);
+module.exports = router;

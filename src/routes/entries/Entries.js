@@ -1,50 +1,42 @@
 const express = require("express");
-const app = express();
-
-app.use(express.json());
+const router = express.Router();
 
 // Get Routen
-app.get("/", function (req, res) {
-  res.json("Hello World");
-});
 
-app.get("/user", function (req, res) {
-  res.json("Hello User");
-});
-
-app.get("/users", function (req, res) {
-  res.json("All Users - hello");
-});
-
-app.get("/entries", function (req, res) {
+// Route für alle Einträge
+router.get("/", function (req, res) {
   res.json("All Entries");
 });
 
-app.get("/images", function (req, res) {
-  res.json("Overview of all Images");
-});
-
-app.get("/friends", function (req, res) {
-  res.json("Overview of all friends");
+// Route für einen bestimmten Eintrag
+router.get("/:id", function (req, res) {
+  const entryId = req.params.id;
+  res.json({ message: `Details for entry with ID ${entryId}` });
 });
 
 // Post Route
-app.post("/user", function (req, res) {
-  const newUser = req.body;
-  res.json({ message: "User created", user: newUser });
+
+//  Route zum Erstellen eines neuen Eintrags
+router.post("/", function (req, res) {
+  const newEntry = req.body;
+  res.json({ message: "Entry created", user: newEntry });
 });
 
 // Put Route
-app.put("/user:id", function (req, res) {
-  const userId = req.params.id;
-  const updatedUser = req.body;
-  res.json({ message: `User with ID ${userId} updated`, updatedUser });
+
+// Route zum Aktualisieren eines Eintrags - basierend auf der ID
+router.put("/:id", function (req, res) {
+  const entryId = req.params.id;
+  const updatedEntry = req.body;
+  res.json({ message: `Entry with ID ${entryId} updated`, updatedEntry });
 });
 
 // Delete Route
-app.delete("/user:id", function (req, res) {
-  const userId = req.params.id;
-  res.json(`User with ID ${userId} deleted`);
+
+// Route zum Löschen eines Eintrags - basierend auf der ID
+router.delete("/:id", function (req, res) {
+  const entryId = req.params.id;
+  res.json(`Entry with ID ${entryId} deleted`);
 });
 
-app.listen(3000);
+module.exports = router;

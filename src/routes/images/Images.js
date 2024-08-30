@@ -1,50 +1,42 @@
 const express = require("express");
-const app = express();
-
-app.use(express.json());
+const router = express.Router();
 
 // Get Routen
-app.get("/", function (req, res) {
-  res.json("Hello World");
-});
 
-app.get("/user", function (req, res) {
-  res.json("Hello User");
-});
-
-app.get("/users", function (req, res) {
-  res.json("All Users - hello");
-});
-
-app.get("/entries", function (req, res) {
-  res.json("All Entries");
-});
-
-app.get("/images", function (req, res) {
+// Route für alle Bilder
+router.get("/", function (req, res) {
   res.json("Overview of all Images");
 });
 
-app.get("/friends", function (req, res) {
-  res.json("Overview of all friends");
+// Route für einen bestimmten Bild
+router.get("/:id", function (req, res) {
+  const imageId = req.params.id;
+  res.json({ message: `Details for image with ID ${imageId}` });
 });
 
 // Post Route
-app.post("/user", function (req, res) {
-  const newUser = req.body;
-  res.json({ message: "User created", user: newUser });
+
+//  Route zum Erstellen eines neuen Bildes
+router.post("/", function (req, res) {
+  const newImage = req.body;
+  res.json({ message: "Image created", user: newImage });
 });
 
 // Put Route
-app.put("/user:id", function (req, res) {
-  const userId = req.params.id;
-  const updatedUser = req.body;
-  res.json({ message: `User with ID ${userId} updated`, updatedUser });
+
+// Route zum Aktualisieren eines Bildes - basierend auf der ID
+router.put("/:id", function (req, res) {
+  const imageId = req.params.id;
+  const updatedImage = req.body;
+  res.json({ message: `Image with ID ${imageId} updated`, updatedImage });
 });
 
 // Delete Route
-app.delete("/user:id", function (req, res) {
-  const userId = req.params.id;
-  res.json(`User with ID ${userId} deleted`);
+
+// Route zum Löschen eines Bildes - basierend auf der ID
+router.delete("/:id", function (req, res) {
+  const imageId = req.params.id;
+  res.json(`Image with ID ${imageId} deleted`);
 });
 
-app.listen(3000);
+module.exports = router;
